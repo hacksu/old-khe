@@ -41,6 +41,10 @@ button.postfix:focus {
   background-color: #E70000;
 }
 
+.oswald {
+  font-family: 'Oswald';
+}
+
 .bold {
   font-weight: bold;
 }

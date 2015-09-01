@@ -25,16 +25,19 @@ angular
     /**
     * Allow for RSVP if the user has already submitted an application.
     */
-    if (view.user) {
-      Models.application.get().
-      success(function (data) {
-        if (data.application) {
-          view.application = data.application;
-        }
-      }).
-      error(function (data) {
-      });
+    function getApplication() {
+      if (view.user) {
+        Models.application.get().
+        success(function (data) {
+          if (data.application) {
+            view.application = data.application;
+          }
+        }).
+        error(function (data) {
+        });
+      }
     }
+    getApplication();
 
     view.person = {
 
@@ -81,6 +84,7 @@ angular
           self.password = null;
           Models.user.setMe(data);
           view.user = Models.user.getMe();
+          getApplication();
         }).
         error(function (data) {
           self.errors = data.errors || ['An internal error has occurred'];
@@ -123,7 +127,7 @@ angular
         Models.news.create(self.email).
         success(function (data) {
           self.errors = null;
-          self.successes = ['Thanks, you\'ll be hearing from us soon!'];
+          self.success = ['Thanks, you\'ll be hearing from us soon!'];
           self.email = null;
         }).
         error(function (data) {
