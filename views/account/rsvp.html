@@ -1,0 +1,46 @@
+<div id="account">
+  <header>
+    <h1>KHE | RSVP</h1>
+  </header>
+  <article>
+    <div class="row">
+      <div class="small-12 medium-6 medium-offset-3 columns">
+        <div class="alert-box alert" ng-if="ctrl.errors">
+          <ul>
+            <li ng-repeat="e in ctrl.errors" class="white">{{e}}</li>
+          </ul>
+        </div>
+        <div class="alert-box success" ng-if="ctrl.success">
+          <p class="white">Thanks {{ctrl.name}}, we'll see you at Kent Hack Enough!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 medium-6 medium-offset-3 columns">
+        <form ng-submit="ctrl.rsvp()">
+          <div class="row">
+            <div class="small-12 columns">
+              <label>
+                Email
+                <input type="email" ng-model="ctrl.email" placeholder="you@example.edu">
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 columns">
+              <label>
+                Password (<a href="/recover">Forgot your password?</a>)
+                <input type="password" ng-model="ctrl.password" placeholder="1234">
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 columns">
+              <button>I'm coming to Kent Hack Enough!</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </article>
+</div>
