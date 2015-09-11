@@ -14,7 +14,9 @@
     <table class="small-12 columns">
       <tr ng-repeat="event in events | orderBy:'start':false">
         <td class="align-right left-col" width="200">
-          <span class="white strong">{{event.start | amDateFormat:'dddd h:mma'}} - {{event.end | amDateFormat:'h:mma'}}</span><br>
+          <span ng-if="!event.singleTime" class="white bold">{{event.start | amDateFormat:'h:mma'}} - {{event.end | amDateFormat:'h:mma'}}</span>
+          <span ng-if="event.singleTime" class="white bold">{{event.start | amDateFormat:'h:mma'}}</span>
+          <br>
           <span class="white">{{event.location}}</span>
         </td>
         <td class="align-left right-col" width="200">
