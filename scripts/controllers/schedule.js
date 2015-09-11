@@ -85,6 +85,9 @@ angular
         ];
         for (var i = 0; i < self.all.length; i++) {
           var day = new Date(self.all[i].start).getDay();
+          if (self.all[i].start == self.all[i].end) {
+            self.all[i].singleTime = true; // only display the start time
+          }
           if (self.days[days[day]]) {
             self.days[days[day]].push(self.all[i]);
           } else {
