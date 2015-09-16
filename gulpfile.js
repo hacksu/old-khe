@@ -41,6 +41,7 @@ var bowerJs = [
   './bower_components/angular-socket-io/socket.min.js',
   './bower_components/angular-cookies/angular-cookies.min.js',
   './bower_components/moment/min/moment.min.js',
+  './bower_components/moment-timezone/builds/moment-timezone-with-data.min.js',
   './bower_components/angular-moment/angular-moment.min.js',
   './bower_components/marked/marked.min.js',
   './bower_components/snap.svg/dist/snap.svg-min.js',
