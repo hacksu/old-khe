@@ -1,5 +1,6 @@
 angular
   .module('khe', ['ngCookies', 'btford.socket-io', 'ui.router', 'ngAnimate', 'angularMoment'])
+  .constant('angularMomentConfig', {timezone: 'America/New_York'})
   .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', function ($locationProvider, $state, $route) {
     $locationProvider.html5Mode(true);
     $route.otherwise('/404');
