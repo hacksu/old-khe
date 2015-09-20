@@ -60,8 +60,11 @@
           <!-- Updates -->
           <h3>
             UPDATES
-            <span ng-if="!live.msg.enabled()" class="small">
-              <a class="small" ng-click="live.msg.enable()">Enable desktop notifications</a> |
+            <span ng-if="live.msg.pushPossible && !live.msg.pushEnabled" class="small">
+              <a class="small" ng-click="live.msg.subscribe()">Enable desktop notifications</a> |
+            </span>
+            <span ng-if="live.msg.pushPossible && live.msg.pushEnabled" class="small">
+              <a class="small" ng-click="live.msg.unsubscribe()">Disable desktop notifications</a> |
             </span>
             <a class="small" ng-if="live.msg.showing == 'few'" ng-click="live.msg.showAll()">Show all</a>
             <a class="small" ng-if="live.msg.showing == 'all'" ng-click="live.msg.showFew()">Show less</a>

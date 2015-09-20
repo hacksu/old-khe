@@ -3,5 +3,8 @@ var config = {
   api: 'http://localhost:3000',
 
   // Client ID
-  client: 'pauldilyard'
+  client: 'pauldilyard',
+
+  // Google GCM API key
+  gcmKey: 'AIzaSyB5GZTM6yKwqJBTJNr3LWY8JZURLbFeGao'
 };
