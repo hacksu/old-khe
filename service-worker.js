@@ -10,6 +10,12 @@ self.addEventListener('push', function (event) {
 
         if (data.messages.length > 0) {
 
+          data.messages = data.messages.sort(function (a, b) {
+            if (a.created < b.created) return 1;
+            if (a.created > b.created) return -1;
+            return 0;
+          });
+
           var title = 'KHE Update';
           var message = data.messages[0].text;
 
