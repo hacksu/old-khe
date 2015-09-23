@@ -79,6 +79,13 @@
       </div>
       <div class="row">
         <div class="small-12 medium-6 columns">
+          <!-- Instagram -->
+          <h3>LINKS</h3>
+          <div id="about-section">
+            <div ng-bind-html="live.about.page.text|markdown|unsafe"></div>
+          </div>
+        </div>
+        <div class="small-12 medium-6 columns">
           <!-- Twitter -->
           <h3>
             TWITTER
@@ -91,14 +98,6 @@
             data-chrome="noheader nofooter noscrollbar"
             data-tweet-limit="4">Tweets by @KentHackEnough</a>
           <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-        </div>
-        <div class="small-12 medium-6 columns">
-          <!-- Instagram -->
-          <h3>
-            INSTAGRAM
-            <a class="small" href="http://instagram.com/kenthackenough">@kenthackenough</a>
-          </h3>
-          <instagram></instagram>
         </div>
       </div>
     </div>

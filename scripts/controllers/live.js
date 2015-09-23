@@ -8,14 +8,15 @@ angular
         controller: 'LiveCtrl as live'
       });
   }])
-  .controller('LiveCtrl', ['Event', 'Message', 'Device', '$interval', function (Event, Message, Device, $interval) {
+  .controller('LiveCtrl', ['Event', 'Message', 'Device', 'About', '$interval', function (Event, Message, Device, About, $interval) {
 
     var view = this;
 
     var Models = {
       event: new Event(),
       message: new Message(),
-      device: new Device()
+      device: new Device(),
+      about: new About()
     };
 
     view.events = {
@@ -319,11 +320,49 @@ angular
 
     };
 
+    view.about = {
+
+      page: null,
+      error: null,
+
+      /**
+      * Get the about page
+      */
+      get: function () {
+        var self = this;
+        Models.about.get().
+        success(function (data) {
+          self.errors = null;
+          self.page = data;
+        }).
+        error(function (data) {
+          self.errors = data.errors || ['An internal error occurred'];
+        });
+      },
+
+      /**
+      * Listen for updates on the about page
+      */
+      listen: function () {
+        var self = this;
+        Models.about.socket().on('create', function (page) {
+          self.page = page;
+        });
+
+        Models.about.socket().on('update', function (page) {
+          self.page = page;
+        });
+      }
+
+    };
+
     // Initialize the controller
     view.events.get();
     view.events.listen();
     view.msg.get();
     view.msg.listen();
     view.msg.registerServiceWorker();
+    view.about.get();
+    view.about.listen();
 
   }]);
