@@ -8,14 +8,13 @@ angular
         controller: 'LiveCtrl as live'
       });
   }])
-  .controller('LiveCtrl', ['Event', 'Message', 'Device', 'About', '$interval', function (Event, Message, Device, About, $interval) {
+  .controller('LiveCtrl', ['Event', 'Message', 'About', '$interval', function (Event, Message, About, $interval) {
 
     var view = this;
 
     var Models = {
       event: new Event(),
       message: new Message(),
-      device: new Device(),
       about: new About()
     };
 
@@ -115,9 +114,6 @@ angular
       all: [],
       messages: [],
 
-      pushEnabled: false,
-      pushPossible: false,
-
       /**
       * Get a list of all messages
       */
@@ -143,6 +139,21 @@ angular
         Models.message.socket().on('create', function (message) {
           self.all.push(message);
           self.refresh();
+
+          // Calculate number of seconds to show notification
+          var words = message.text.split(' ');
+          var seconds = Math.ceil(words.length / 2.5);
+          seconds = Math.max(seconds, 2);
+
+          // Show a notification
+          var notification = new Notify('Kent Hack Enough', {
+            body: message.text,
+            icon: '/img/logo-short-square-white.png',
+            timeout: seconds
+          });
+          if (!Notify.needsPermission) {
+            notification.show();
+          }
         });
 
         // Message updated
@@ -166,120 +177,17 @@ angular
       },
 
       /**
-      * Enables notifications
+      * Prompts the user to enable notifications
       */
-      subscribe: function () {
-
-        navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
-          serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
-            .then(function (subscription) {
-
-              Models.device.add(subscription.endpoint).
-              success(function (data) {
-                view.msg.pushEnabled = true;
-              }).
-              error(function (data) {
-                console.log('Had a problem subscribing you to push notifications');
-              });
-
-            })
-            .catch(function () {
-              if (Notification.permission == 'denied') {
-                view.msg.pushEnabled = false;
-              } else {
-                view.msg.pushEnabled = false;
-              }
-            });
-        });
+      enable: function () {
+        Notify.requestPermission();
       },
 
       /**
-      * Register push notification service worker
+      * Returns true if notifications are enabled
       */
-      registerServiceWorker: function () {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker
-            .register('/service-worker.js')
-            .then(this.initializeState);
-        }
-      },
-
-      /**
-      * Register the initial state
-      */
-      initializeState: function () {
-
-        if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
-          return;
-        }
-
-        if (Notification.permission == 'denied') {
-          return;
-        }
-
-        if (!('PushManager' in window)) {
-          return;
-        }
-
-        navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
-          serviceWorkerRegistration.pushManager.getSubscription()
-            .then(function (subscription) {
-
-              view.msg.pushPossible = true;
-
-              if (!subscription) {
-                view.msg.pushEnabled = false;
-                return;
-              }
-
-              // send the subscription to the server
-              Models.device.add(subscription.endpoint).
-              success(function (data) {
-                view.msg.pushEnabled = true;
-              }).
-              error(function (data) {
-                console.log('Had a problem subscribing you to push notifications');
-              });
-
-            });
-        });
-      },
-
-      /**
-      * Turns off push notifications
-      */
-      unsubscribe: function () {
-        navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
-          serviceWorkerRegistration.pushManager.getSubscription().then(function (pushSub) {
-            if (!pushSub) {
-              view.msg.pushEnabled = false;
-              return;
-            }
-
-            pushSub.unsubscribe().then(function (successful) {
-
-              // remove the registration from the server
-              Models.device.remove(pushSub.endpoint).
-              success(function (data) {
-                view.msg.pushEnabled = false;
-              }).
-              error(function (data) {
-                console.log('Had a problem unsubscribing you from push notifications');
-              });
-
-            });
-          });
-        });
-      },
-
-      /**
-      * Return true if push is possible
-      */
-      isPushPossible: function () {
-        if ('serviceWorker' in navigator) {
-          return true;
-        }
-        return false;
+      enabled: function () {
+        return !Notify.needsPermission;
       },
 
       /**
@@ -361,7 +269,6 @@ angular
     view.events.listen();
     view.msg.get();
     view.msg.listen();
-    view.msg.registerServiceWorker();
     view.about.get();
     view.about.listen();
 
