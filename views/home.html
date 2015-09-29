@@ -21,7 +21,7 @@
   </div>
 
   <div class="row" id="updates">
-    <div class="small-12 medium-8 medium-offset-2 large-4 large-offset-4 columns">
+    <div class="small-12 medium-8 medium-offset-2 large-4 large-offset-4 columns align-center">
       <!-- Pre-register -->
       <!--<p class="align-center">Get updates about KHE:</p>
       <p class="align-center" ng-repeat="message in home.mail.successes">{{message}}</p>
@@ -38,8 +38,11 @@
       </form>-->
       <!-- /Pre-register -->
       <div class="white small" ng-repeat="e in home.errors">{{e}}</div>
-      <button ng-if="!home.user" class="apply" ng-click="home.loginRegister = true; home.showLogin = false">Apply</button>
-      <button ng-if="!home.user" class="apply" ng-click="home.loginRegister = true; home.showLogin = true">Login</button>
+      <div ng-if="!home.user">
+        <br>
+        <a class="apply" ng-click="home.loginRegister = true; home.showLogin = false">Apply</a> |
+        <a class="apply" ng-click="home.loginRegister = true; home.showLogin = true">Login</a>
+      </div>
       <button ng-if="home.user" class="apply" ui-sref="apply.page1">Your Application</button>
       <div ng-if="home.user && home.application.status == 'approved'" class="align-center" ng-click="home.apply.toggleGoing()">
         <span ng-if="!home.application.going" class="white">Click the button below to RSVP!</span>
@@ -54,6 +57,9 @@
         <a ng-click="home.person.logout()" class="white">Logout</a>
         <br><br>
       </div>
+
+      <button class="apply" ui-sref="schedule">Schedule</button>
+      <!-- <button class="apply" ui-sref="live">KHE Live</button> -->
     </div>
 
     <!-- Schedule and live pages -->

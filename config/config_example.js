@@ -3,5 +3,5 @@ var config = {
   api: 'http://localhost:3000',
 
   // Client ID
-  client: 'YOUR_CLIENT_ID'
+  client: 'CLIENT_ID'
 };
