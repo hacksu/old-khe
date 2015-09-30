@@ -73,6 +73,10 @@ button.postfix:focus {
   color: white;
 }
 
+.extra-white *:not(a) {
+  color: white;
+}
+
 .red {
   color: red;
 }
