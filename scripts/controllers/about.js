@@ -1,9 +1,11 @@
 angular
   .module('khe')
-  .config(['$stateProvider', function ($state) {
+  .config(['$stateProvider', '$urlRouterProvider', function ($state, $router) {
+    $router.when('/links', '/info');
+    $router.when('/about', '/info');
     $state
       .state('about', {
-        url: '/links',
+        url: '/info',
         templateUrl: '/views/about.html',
         controller: 'AboutCtrl as about'
       });
