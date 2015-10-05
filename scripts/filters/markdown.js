@@ -2,6 +2,6 @@ angular
   .module('khe')
   .filter('markdown', function () {
     return function (input) {
-      return marked(input);
+      return marked(input || '');
     };
   });
