@@ -80,6 +80,11 @@ angular
         self.happening = [];
         self.upNext = [];
         self.later = [];
+        // get rid of past events
+        self.all = self.all.filter(function (event) {
+          return new Date(event.start) >= new Date();
+        });
+
         // sort events
         self.all = self.all.sort(function (a, b) {
           if (a.start > b.start) return 1;
