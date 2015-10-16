@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+  - "4.2.x"
+
+sudo: false
+
+before_install:
+  - cp api/config/config_travis-ci.js api/config/config.js
+
+install:
+  - 'cd api && npm install'
+  - 'cd ../front && npm install && bower install'
+  - 'cd ../staff && npm install && bower install'
+
+services:
+  - mongodb
+  - redis-server
+
+# notifications:
+#   email: false
+#   slack:
+#     rooms:
+#       - 'khe:tfhhTbfsGC5sNlqxUbmU9OZF#development'
+#     on_success: change
+#     on_failure: change

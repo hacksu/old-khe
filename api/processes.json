@@ -1,10 +1,11 @@
 {
-  "apps" : [{
-    "name"        : "api",
-    "script"      : "app.js",
-    "args"        : [],
-    "log_date_format"  : "YYYY-MM-DD HH:mm Z",
-    "ignore_watch" : [".vagrant", "node_modules", "test", "uploads", "app.log", ".gitignore", "README.md", "Vagrantfile", "app/emails/general"],
-    "watch"       : true
+  "apps": [{
+    "name": "api",
+    "script": "app.js",
+    "args": [],
+    "log_date_format": "YYYY-MM-DD HH:mm Z",
+    "cwd": "/var/www/api",
+    "watch": ["./"],
+    "ignore_watch": ["node_modules", "test", "uploads", ".gitignore"]
   }]
 }
