@@ -3,10 +3,10 @@
 module.exports = {
 
   // The world-accessible base URL
-  base: 'http://localhost:3000',
+  base: 'http://localhost:4000',
 
   // The port we want the app to run on (override with env.PORT)
-  port: 3000,
+  port: 4000,
 
   // The prefix for our router
   prefix: '/v1.0',
@@ -16,7 +16,7 @@ module.exports = {
 
   // Database to save users and other data to
   mongo: {
-    uri: 'mongodb://localhost:27017/test'
+    uri: 'mongodb://localhost:27017/khe'
   },
 
   // Redis is used for caching
