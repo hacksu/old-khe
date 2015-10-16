@@ -4,13 +4,17 @@ node_js:
 
 sudo: false
 
+env:
+  - DIR=api
+  - DIR=front
+  - DIR=staff
+
 before_install:
-  - cp api/config/config_travis-ci.js api/config/config.js
+  - cd $DIR
+  - cp config/config_travis-ci.js config/config.js
 
 install:
-  - 'cd api && npm install'
-  - 'cd ../front && npm install && bower install'
-  - 'cd ../staff && npm install && bower install'
+  - 'cd $DIR && npm install && bower install'
 
 services:
   - mongodb
