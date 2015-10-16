@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="khe">
+<head>
+  <title>Kent Hack Enough | Staff</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Minified JavaScript libraries and scripts directory -->
+  <script src="/dist/scripts/bower.min.js"></script>
+  <script src="/dist/scripts/scripts.min.js"></script>
+
+  <!-- Minified CSS libraries and styles directory -->
+  <link rel="stylesheet" href="/dist/styles/bower.min.css">
+  <link rel="stylesheet" href="/dist/styles/styles.min.css">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="img/favicon.ico" />
+
+  <base href="/">
+
+</head>
+<body>
+
+  <div ng-view></div>
+
+  <!-- UI Scripts -->
+  <script src="/bower_components/foundation/js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+
+</body>
+</html>

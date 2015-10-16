@@ -1,0 +1,226 @@
+<div>
+  <requirestaff user="att.me" error="true">
+    <staffheader></staffheader>
+    <staffsidebar>
+      <strong>Estimated Attendees:</strong> {{att.minimumEstimate}} - {{att.maximumEstimate}} <br>
+      <strong>Probable Attendees:</strong> {{att.probable.length}} <br>
+      <strong>RSVPs:</strong> {{att.going.length}}
+      <fieldset>
+        <legend>Filters</legend>
+        <li><a ng-click="att.filter.apply('all')">All ({{att.all.length}})</a></li>
+        <li><a ng-click="att.filter.apply('applied')">Applied ({{att.applied.length}})</a></li>
+        <li><a ng-click="att.filter.apply('probable')">Probable ({{att.probable.length}})</a></li>
+        <li><a ng-click="att.filter.apply('going')">Going ({{att.going.length}})</a></li>
+        <li><a ng-click="att.filter.apply('approved')">Approved ({{att.approved.length}})</a></li>
+        <li><a ng-click="att.filter.apply('waitlisted')">Waitlisted ({{att.waitlisted.length}})</a></li>
+        <li><a ng-click="att.filter.apply('pending')">Pending ({{att.pending.length}})</a></li>
+        <li><a ng-click="att.filter.apply('denied')">Denied ({{att.denied.length}})</a></li>
+        <li><a ng-click="att.filter.apply('travel')">Travel Requests ({{att.travel.length}})</a></li>
+        <li><a ng-click="att.filter.apply('checked')">Checked In ({{att.checked.length}})</a></li>
+      </fieldset>
+      <li><a href="/attendees/checkin" class="button small-12 columns">Check In</a></li>
+    </staffsidebar>
+
+    <br>
+    <div class="small-12 large-9 columns">
+
+      <!-- Errors, if there are any -->
+      <div ng-if="att.errors.length">
+        <div data-alert class="alert-box alert">
+          <span ng-repeat="error in att.errors">{{error}}<br></span>
+          <a href="#" class="close">&times;</a>
+        </div>
+      </div>
+
+      <div class="row">
+        <h3>Attendees
+          <span class="small grey">{{att.filter.current | capitalizeFirstLetter}} ({{att.users.length}})</span>
+          <span ng-if="query" class="small grey align-right bold">Results: {{filtered.length}}</span>
+        </h3>
+      </div>
+
+      <!-- Search box -->
+      <div class="row">
+        <input type="text" ng-model="query" placeholder="Search by name, email, school, phone, or any other user attribute">
+      </div>
+
+      <!-- Loading circle -->
+      <div class="row" ng-if="!att.all.length">
+        <div class="small-12 columns align-center">
+          <br><br>
+          <i class="fa fa-refresh fa-spin fa-5x"></i>
+        </div>
+      </div>
+
+      <!-- Each user with submitted application -->
+      <div class="row expandable-list-item" ng-repeat="user in filtered = (att.users | filter:query | orderBy:'application.created':true)" ng-if="user.application">
+        <!-- Content always shown -->
+        <div class="row header cursor-pointer" ng-click="att.visibility.toggle(user)">
+          <div class="small-9 columns">
+            <strong>{{user.application.name}}</strong>
+          </div>
+          <div class="small-3 columns align-right">
+            <i class="fa fa-thumbs-up" ng-if="user.application.probable">&nbsp;&nbsp;</i>
+            <i class="{{user.application.status|application:'icon'}}"></i>
+          </div>
+        </div>
+        <!-- Content shown on expansion -->
+        <div class="row content" ng-if="att.visibility.check(user)">
+          <div class="small-12 columns">
+            <hr>
+            <!-- Static information (the user's application) -->
+            <div class="row">
+              <div class="small-12 large-6 columns">
+                <strong>School:</strong> {{user.application.school}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Email:</strong> <a class="black" href="mailto:{{user.email}}">{{user.email}}</a>
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Year:</strong> {{user.application.year}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Phone:</strong> {{user.application.phone|formatPhone}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Age:</strong> {{user.application.age}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Travel Required:</strong> {{user.application.travel|application:'travel'}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>First Hackathon:</strong> {{user.application.first|application:'first'}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Dietary Restrictions:</strong> {{user.application.dietary|application:'dietary'}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Major:</strong> {{user.application.major}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Shirt Size:</strong> {{user.application.shirt|application:'shirt'}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Gender:</strong> {{user.application.gender|application:'gender'|capitalizeFirstLetter}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>RSVP:</strong> {{user.application.going|application:'going'}}
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Resume:</strong> <a ng-if="user.application.resume" href="{{user.application.resume|application:'resumeLink'}}">Download</a> <span ng-if="!user.application.resume">None</span>
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Link:</strong> <a ng-if="user.application.link" class="black" target="_blank" href="{{user.application.link|fullUrl}}">{{user.application.link}}</a> <span ng-if="!user.application.link">None</span>
+              </div>
+            </div>
+            <hr>
+            <!-- Editable information -->
+            <div class="row">
+              <div class="small-12 large-6 columns">
+                <strong>Status:</strong>
+                <a ng-if="!user.editingStatus" class="black cursor-pointer" ng-click="att.status.edit(user)">
+                  {{user.application.status|capitalizeFirstLetter}}
+                </a>
+                <span ng-if="user.editingStatus">
+                  <div class="row collapse">
+                    <div class="small-8 columns">
+                      <select ng-model="user.application.status">
+                        <option value="pending">Pending</option>
+                        <option value="waitlisted">Waitlisted</option>
+                        <option value="denied">Denied</option>
+                        <option value="approved">Approved</option>
+                      </select>
+                    </div>
+                    <div class="small-2 columns">
+                      <a class="button postfix" ng-click="att.status.save(user)">Save</a>
+                    </div>
+                    <div class="small-2 columns">
+                      <a class="button alert postfix" ng-click="att.status.cancel(user)">Cancel</a>
+                    </div>
+                  </div>
+                </span>
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Checked In:</strong>
+                <a ng-if="!user.editingChecked" class="black cursor-pointer" ng-click="att.checkedIn.edit(user)">
+                  {{user.application.checked|application:'checked'}}
+                </a>
+                <span ng-if="user.editingChecked">
+                  <div class="row collapse">
+                    <div class="small-8 columns">
+                      <select ng-model="user.application.checked"
+                              ng-options="o.v as o.n for o in [{ n: 'Yes', v: true }, { n: 'No', v: false }]">
+                      </select>
+                    </div>
+                    <div class="small-2 columns">
+                      <a class="button postfix" ng-click="att.checkedIn.save(user)">Save</a>
+                    </div>
+                    <div class="small-2 columns">
+                      <a class="button alert postfix" ng-click="att.checkedIn.cancel(user)">Cancel</a>
+                    </div>
+                  </div>
+                </span>
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Role:</strong>
+                <span ng-if="att.user.role == 'staff'">
+                  {{user.role|capitalizeFirstLetter}}
+                </span>
+                <requireadmin user="att.me">
+                  <a ng-if="!user.editingRole" class="black cursor-pointer" ng-click="att.role.edit(user)">
+                    {{user.role|capitalizeFirstLetter}}
+                  </a>
+                  <span ng-if="user.editingRole">
+                    <div class="row collapse">
+                      <div class="small-8 columns">
+                        <select ng-model="user.role">
+                          <option value="attendee">Attendee</option>
+                          <option value="staff">Staff</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      </div>
+                      <div class="small-2 columns">
+                        <a class="button postfix" ng-click="att.role.save(user)">Save</a>
+                      </div>
+                      <div class="small-2 columns">
+                        <a class="button alert postfix" ng-click="att.role.cancel(user)">Cancel</a>
+                      </div>
+                    </div>
+                  </span>
+                </requireadmin>
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Applied:</strong> <span am-time-ago="user.application.created"></span>
+              </div>
+              <requireadmin user="att.me">
+                <div class="small-12 large-6 columns">
+                  <strong>Options:</strong>
+                  <a class="black underline" ng-if="!att.del.check(user)" ng-click="att.del.toggle(user)">Delete</a>
+                  <div ng-if="att.del.check(user)">
+                    Are you sure?
+                    <a ng-click="att.del.yes(user)">Yes</a>
+                    <a ng-click="att.del.toggle(user)">No</a>
+                  </div>
+                  <span ng-if="!att.del.check(user)">
+                    | <a ng-click="att.prob.toggle(user)" class="black underline">Probable</a>
+                  </span>
+                </div>
+              </requireadmin>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Each user that doesn't have a submitted application -->
+      <div class="row expandable-list-item" ng-repeat="user in att.users | filter:query | orderBy:'time':true" ng-if="!user.application">
+        <div class="row header">
+          <div class="small-9 columns">
+            {{user.email}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </requirestaff>
+</div>

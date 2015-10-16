@@ -1,0 +1,177 @@
+<requirestaff user="checkin.me" error="true">
+
+  <staffheader></staffheader>
+
+  <staffsidebar>
+    <li>
+      <span class="large"><strong>Checked In:</strong> {{checkin.count}}</span>
+    </li>
+    <li>
+      <!-- Quick Registration Form -->
+      <form ng-submit="checkin.quick.register()" novalidate>
+        <fieldset>
+          <legend>Quick Register</legend>
+
+          <label>
+            Name
+            <input type="text" ng-model="checkin.quick.application.name" placeholder="John Doe">
+          </label>
+          <label>
+            Email
+            <input type="text" ng-model="checkin.quick.application.email" placeholder="user@example.com">
+          </label>
+          <label>
+            Phone
+            <input type="text" ng-model="checkin.quick.application.phone" placeholder="555-555-5555">
+          </label>
+          <button class="button small">Submit</button>
+        </fieldset>
+      </form>
+    </li>
+  </staffsidebar>
+
+  <br>
+  <div class="small-12 large-9 columns">
+
+    <!-- Errors, if there are any -->
+    <div ng-if="checkin.errors">
+      <div data-alert class="alert-box alert">
+        <span ng-repeat="error in checkin.errors">{{error}}<br></span>
+        <a href="#" class="close">&times;</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <h3>Check In <span class="small grey">({{checkin.count}}/{{checkin.users.length}})</span></h3>
+    </div>
+
+    <!-- Search box -->
+    <div class="row">
+      <input type="text" ng-model="query" placeholder="Search by name, email, school, phone, or any other user attribute">
+    </div>
+
+    <!-- Loading circle -->
+    <div class="row" ng-if="!checkin.users.length">
+      <div class="small-12 columns align-center">
+        <br><br>
+        <i class="fa fa-refresh fa-spin fa-5x"></i>
+      </div>
+    </div>
+
+    <!-- Each user with submitted application -->
+    <div class="row expandable-list-item" ng-repeat="user in checkin.users | filter:query | orderBy:'application.name':false" ng-if="user.application">
+
+      <div class="row header cursor-pointer" ng-click="checkin.visibility.toggle(user)">
+        <div class="small-9 columns">
+          {{user.application.name}}
+        </div>
+
+        <div class="small-3 columns">
+          <div class="switch align-right">
+            <input id="{{user._id}}-checked" type="checkbox" ng-model="user.application.checked" ng-click="checkin.toggleChecked(user)">
+            <label for="{{user._id}}-checked"></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row content" ng-if="checkin.visibility.check(user)">
+        <div class="small-12 columns">
+          <hr>
+          <div class="row">
+            <div class="small-12 columns">
+              <strong>Status:</strong> {{user.application.status | capitalizeFirstLetter}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 columns">
+              <strong>Email:</strong> {{user.email}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="small-12 columns">
+              <!-- Phone field -->
+              <strong>Phone:</strong>
+              <a
+                ng-if="checkin.phone.editingId != user._id"
+                ng-click="checkin.phone.edit(user)"
+                class="black underline">
+                {{user.application.phone|formatPhone}}
+              </a>
+
+              <!-- Edit phone form -->
+              <form
+                ng-if="checkin.phone.editingId == user._id"
+                ng-submit="checkin.phone.save(user)">
+                <br>
+                <div class="small-8 columns">
+                  <div class="row collapse prefix-radius">
+                    <div class="small-2 columns">
+                      <span class="prefix">Phone</span>
+                    </div>
+                    <div class="small-6 columns">
+                      <input type="text" placeholder="555-555-5555" ng-model="user.app.phone">
+                    </div>
+                    <!-- Submit button -->
+                    <div class="small-2 columns">
+                      <button class="button postfix">Save</button>
+                    </div>
+                    <!-- Cancel button -->
+                    <div class="small-2 columns">
+                      <button ng-click="checkin.phone.cancel(user)" class="button secondary postfix">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Each user that doesn't have a submitted application -->
+    <div class="row expandable-list-item" ng-repeat="user in checkin.users | filter:query | orderBy:'email':false" ng-if="!user.application">
+      <div class="row header cursor-pointer" ng-click="checkin.visibility.toggle(user)">
+        <div class="small-9 columns">
+          {{user.email}}
+        </div>
+      </div>
+      <div class="row content" ng-if="checkin.visibility.check(user)">
+        <div class="small-12 columns">
+          <hr>
+          <form ng-submit="checkin.quick.edit(user)">
+            <!-- Name -->
+            <div class="small-5 columns">
+              <div class="row collapse prefix-radius">
+                <div class="small-3 columns">
+                  <span class="prefix">Name</span>
+                </div>
+                <div class="small-9 columns">
+                  <input type="text" placeholder="John Doe" ng-model="user.app.name">
+                </div>
+              </div>
+            </div>
+            <!-- Phone -->
+            <div class="small-5 columns">
+              <div class="row collapse prefix-radius">
+                <div class="small-3 columns">
+                  <span class="prefix">Phone</span>
+                </div>
+                <div class="small-9 columns">
+                  <input type="text" placeholder="555-555-5555" ng-model="user.app.phone">
+                </div>
+              </div>
+            </div>
+            <!-- Submit button -->
+            <div class="small-2 columns">
+              <button class="button postfix">Check In</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+</requirestaff>

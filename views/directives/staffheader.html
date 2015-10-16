@@ -1,0 +1,28 @@
+<nav class="top-bar" data-topbar role="navigation" data-options="is_hover: false">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="/"><strong>Kent Hack Enough</strong> Staff</a></h1>
+    </li>
+    <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+  </ul>
+
+  <section class="top-bar-section">
+    <ul class="right">
+      <li><a href="/attendees">Attendees</a></li>
+      <li><a href="/emails">Emails</a></li>
+      <li><a href="/tickets">Tickets <span ng-if="tickets > 0">({{tickets}})</span></a></li>
+      <li><a href="/live">Live</a></li>
+      <li><a href="/schedule">Schedule</a></li>
+      <li><a href="/about">About</a></li>
+      <li class="has-dropdown">
+        <a href="#">Tools</a>
+        <ul class="dropdown">
+          <li><a href="/tools/urls">URL Shortener</a></li>
+          <li><a href="/tools/news">News List</a></li>
+          <li><a href="/tools/exports">Exports</a></li>
+        </ul>
+      </li>
+      <li><a ng-click="logout()">Logout</a></li>
+    </ul>
+  </section>
+</nav>
