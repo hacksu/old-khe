@@ -1,0 +1,6 @@
+config.js
+node_modules
+bower_components
+.vagrant
+.DS_Store
+dist
