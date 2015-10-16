@@ -14,7 +14,7 @@ before_install:
   - cp config/config_travis-ci.js config/config.js
 
 install:
-  - 'cd $DIR && npm install && bower install'
+  - 'npm install && bower install'
 
 services:
   - mongodb
