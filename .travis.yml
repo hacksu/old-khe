@@ -6,15 +6,13 @@ sudo: false
 
 env:
   - DIR=api
-  - DIR=front
-  - DIR=staff
 
 before_install:
   - cd $DIR
   - cp config/config_travis-ci.js config/config.js
 
 install:
-  - 'npm install && bower install'
+  - 'npm install'
 
 services:
   - mongodb

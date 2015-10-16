@@ -5,13 +5,9 @@
 # all
 test:
 	make api:test
-	make front:test
-	make staff:test
 
 vm\:test:
 	make vm:api:test
-	make vm:front:test
-	make vm:staff:test
 
 # api only
 api\:test:
@@ -19,20 +15,6 @@ api\:test:
 
 vm\:api\:test:
 	vagrant ssh -c 'cd /var/www/api && env NODE_ENV='test' mocha test/test.js'
-
-# front only
-front\:test:
-	echo "Front tests not yet implemented"
-
-vm\:front\:test:
-	echo "Front tests not yet implemented"
-
-# staff only
-staff\:test:
-	echo "Staff tests not yet implemented"
-
-vm\:staff\:test:
-	echo "Staff tests not yet implemented"
 
 # ------------------------------------------------------------------------------
 # running
