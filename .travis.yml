@@ -12,7 +12,8 @@ before_install:
   - cp config/config_travis-ci.js config/config.js
 
 install:
-  - 'npm install'
+  - npm install -g mocha
+  - npm install
 
 before_script:
   - cd ..
