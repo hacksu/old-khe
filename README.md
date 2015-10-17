@@ -11,3 +11,4 @@ To get familiar with this repository, please check out the documentation in the 
 
 ## Documentation
 TODO: migrate docs from wiki to something in version control
+TODO: document devops
