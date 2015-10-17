@@ -8,7 +8,7 @@ curl --silent --location https://deb.nodesource.com/setup_4.x | bash -
 apt-get install --yes nodejs
 ln -s `which nodejs` /usr/bin/node
 npm install -g npm@3.3.x n mocha pm2 bunyan bower
-n 4.2.x
+n 4.2
 
 # install and build app
 cd /var/www/api

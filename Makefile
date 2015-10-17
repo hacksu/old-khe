@@ -31,16 +31,16 @@ vm\:start:
 
 # api only
 api\:start:
-	pm2 startOrReload api/app.js --watch -i 0
+	pm2 startOrReload api/app.json
 
 api\:reload:
-	pm2 reload api/app.js
+	pm2 reload api/app.json
 
 api\:stop:
 	pm2 delete api
 
 vm\:api\:start:
-	vagrant ssh -c 'cd /var/www/api && pm2 startOrReload app.js --watch -i 0'
+	vagrant ssh -c 'cd /var/www/api && pm2 startOrReload app.json'
 
 vm\:api\:reload:
 	vagrant ssh -c 'cd /var/www/api && pm2 reload api'
