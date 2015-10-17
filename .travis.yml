@@ -10,6 +10,7 @@ env:
 before_install:
   - cd $DIR
   - cp config/config_travis-ci.js config/config.js
+  - cd ..
 
 install:
   - 'npm install'
