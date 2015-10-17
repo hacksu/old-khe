@@ -13,10 +13,10 @@ vm\:test:
 
 # api only
 api\:test:
-	env NODE_ENV=test mocha api/test/test.js
+	NODE_ENV=test mocha api/test/test.js
 
 vm\:api\:test:
-	vagrant ssh -c 'cd /var/www/api && env NODE_ENV='test' mocha test/test.js'
+	vagrant ssh -c 'cd /var/www/api && NODE_ENV='test' mocha test/test.js'
 
 # ------------------------------------------------------------------------------
 # running
