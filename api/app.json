@@ -1,6 +1,7 @@
 {
   "apps": [{
     "name": "api",
+    "cwd": "/var/www/api",
     "script": "app.js",
     "instances": 2,
     "max_restarts": 15
