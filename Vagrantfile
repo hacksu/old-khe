@@ -14,7 +14,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 4200, host: 4200
 
   # Provision
-  config.vm.provision "shell", path: "provision.sh" do |s|
+  config.vm.provision "shell", path: "scripts/vagrant.sh" do |s|
     s.args = ["dev"]
   end
 
