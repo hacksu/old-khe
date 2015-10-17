@@ -14,17 +14,15 @@ before_install:
 install:
   - 'npm install'
 
-after_install:
+before_script:
   - cd ..
+
+script:
+  - npm test
 
 services:
   - mongodb
   - redis-server
 
-# notifications:
-#   email: false
-#   slack:
-#     rooms:
-#       - 'khe:tfhhTbfsGC5sNlqxUbmU9OZF#development'
-#     on_success: change
-#     on_failure: change
+notifications:
+  email: false
