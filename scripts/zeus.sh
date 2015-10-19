@@ -6,7 +6,7 @@ apt-get update
 apt-get install -y nginx curl
 
 rm /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*
-curl https://github.com/hacksu/khe/blob/master/scripts/zeus.conf > /etc/nginx/sites-available/zeus.conf
+curl https://raw.githubusercontent.com/hacksu/khe/master/scripts/zeus.conf > /etc/nginx/sites-available/zeus.conf
 ln -s /etc/nginx/sites-available/zeus.conf /etc/nginx/sites-enabled
 
 service nginx restart
