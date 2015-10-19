@@ -10,6 +10,13 @@ ln -s `which nodejs` /usr/bin/node
 npm install -g npm@3.3.x n mocha pm2 bunyan bower
 n 4.2
 
+# nginx
+apt-get install -y nginx
+rm /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*
+curl https://raw.githubusercontent.com/hacksu/khe/master/scripts/apollo.conf > /etc/nginx/sites-available/apollo.conf
+ln -s /etc/nginx/sites-available/apollo.conf /etc/nginx/sites-enabled
+service nginx restart
+
 # install and build app
 cd /var/www/api
 npm install

@@ -17,7 +17,7 @@ if [ -f /etc/nginx/sites-enabled/default ]; then
 fi
 cp /var/www/scripts/apollo.conf /etc/nginx/sites-available
 ln -s /etc/nginx/sites-available/apollo.conf /etc/nginx/sites-enabled
-service nginx reload
+service nginx restart
 
 # redis
 apt-get install -y redis-server
